@@ -8,4 +8,4 @@ The complete circuit-level error analysis and its derivation are provided in [`A
 
 ## Contents
 
-- `Appendix.pdf`: Detailed error analysis of the proposed fixed-point quantum base-2 logarithm circuit, including the derivation of the approximation-error bound and the selection of the range-reduction rounds, Taylor order, and internal precision.
+- `Appendix.pdf`: Detailed error analysis of the proposed fixed-point quantum base-2 logarithm circuit.
