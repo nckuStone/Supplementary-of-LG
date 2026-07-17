@@ -15,8 +15,6 @@ The complete circuit-level error analysis and its derivation are provided in [`A
 
 This repository provides the generated QASM files for the logarithm-circuit experimental cases. These QASM files can be simulated using **SliQSim**, a high-performance BDD-based quantum circuit simulator.
 
-Please note that this repository provides the QASM circuit files only. The circuit-generation source code is not included.
-
 The experimental cases are summarized in the following table:
 
 ![Experimental results of the proposed logarithm circuit](./LG_Table_ExperimentalResults.png)
@@ -25,3 +23,10 @@ For each row in the table, the corresponding QASM filename follows the format
 
 ```text
 LG_I_F_X_int.qasm
+
+
+---
+
+### References
+* **SliQSim Repository**: [https://github.com/NTU-ALComLab/SliQSim](https://github.com/NTU-ALComLab/SliQSim)
+
