@@ -37,6 +37,17 @@ For example, a row with `I = 8`, `F = 32`, and `X_int = 61` corresponds to the f
 LG_8_32_61.qasm
 ```
 
+## Additional Parameter-Choice Cases
+
+For the case `LG_8_32_61.qasm`, two additional QASM files are provided to illustrate the effect of unbalanced parameter choices:
+
+- `LG_8_32_61_N2.qasm`: The Taylor order is fixed to N=2, requiring more range-reduction rounds M=17 (MN>=(F+2)).
+- `LG_8_32_61_M2.qasm`: The number of range-reduction rounds is fixed to M=2, requiring more Taylor terms N=17 (MN>=(F+2)).
+
+These two cases can still achieve the same target error bound, but they require more circuit resources than the balanced choice. This demonstrates why the proposed parameter selection balances M and N.
+
+Except for these two additional illustrative cases, the experimental QASM files follow the balanced parameter selection described in the paper, namely M=N=Theta(F^0.5).
+
 ## Simulation with SliQSim
 
 The provided QASM files can be simulated using **SliQSim**, a high-performance BDD-based quantum circuit simulator.
