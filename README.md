@@ -16,7 +16,7 @@ The complete circuit-level error analysis and its derivation are provided in [`A
 The experimental cases are summarized in the following table.
 
 <p align="center">
-  <img src=".PIC//LG_Table_ExperimentalResults.png" alt="Experimental results of the proposed logarithm circuit" width="450">
+  <img src="./PIC/LG_Table_ExperimentalResults.png" alt="Experimental results of the proposed logarithm circuit" width="450">
 </p>
 
 For each row in the table, the corresponding QASM filename follows the format
