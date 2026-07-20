@@ -67,7 +67,7 @@ p = F + M + 5
 
 This parameter choice achieves O(2^-F) accuracy with asymptotic width O(F^1.5) and depth O(F^2.5).
 
-For a more implementation-oriented estimate, a square-root circuit with `2 + 2p` input bits contributes width O(2 + 2p) and depth O((2 + 2p)^2 / 2). A multiplier with `2 + p` input bits contributes width O(2(2 + p)) and depth O((2 + p)^2).
+For a more implementation-oriented estimate, a square-root circuit with `n = 2 + 2p` input bits contributes width O(n) and depth O(n^2 / 2). A multiplier with `n=2 + p` input bits contributes width O(2n) and depth O(n^2).
 
 Let 
 c = ceil(sqrt(F + 2)).
