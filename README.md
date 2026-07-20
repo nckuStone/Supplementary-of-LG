@@ -10,6 +10,8 @@ The complete circuit-level error analysis and its derivation are provided in [`A
 
 - `Appendix.pdf`: Detailed error analysis of the proposed fixed-point quantum base-2 logarithm circuit.
 - QASM files: Circuit QASM files for the experimental cases listed in `LG_Table_ExperimentalResults.png`.
+- `PIC/Circuit Width versus F.png`: Width-scaling comparison with prior quantum logarithm circuits.
+- `PIC/Circuit Depth versus F.png`: Depth-scaling comparison with prior quantum logarithm circuits.
 
 ## Experimental QASM Files
 
@@ -47,6 +49,84 @@ For the case `LG_8_32_61.qasm`, two additional QASM files are provided to illust
 These two cases can still achieve the same target error bound, but they require more circuit resources than the balanced choice. This demonstrates why the proposed parameter selection balances M and N.
 
 Except for these two additional illustrative cases, the experimental QASM files follow the balanced parameter selection described in the paper, namely M=N=Theta(F^0.5).
+
+## Resource-Scaling Comparison
+
+To provide a more intuitive comparison with prior quantum logarithm circuits, we include width- and depth-scaling plots.
+
+Bhaskar *et al.*'s LN module achieves \(\mathcal{O}(2^{-F})\) accuracy with width
+
+\[
+\mathcal{O}(F^2\log F)
+\]
+
+and depth
+
+\[
+\mathcal{O}(F^3\log F).
+\]
+
+Wang *et al.* propose a qFBE-based logarithm circuit with width
+
+\[
+\mathcal{O}(F^2)
+\]
+
+and depth
+
+\[
+\mathcal{O}(F^3).
+\]
+
+Their work does not provide an analytical error bound and instead relies on numerical evaluation.
+
+For the proposed logarithm circuit, we choose
+
+\[
+M=N=\left\lceil\sqrt{F+2}\right\rceil,
+\qquad
+p=F+M+5.
+\]
+
+This achieves \(\mathcal{O}(2^{-F})\) accuracy with asymptotic width \(\mathcal{O}(F^{1.5})\) and depth \(\mathcal{O}(F^{2.5})\).
+
+Let
+
+\[
+c=\left\lceil\sqrt{F+2}\right\rceil.
+\]
+
+Using the resource estimates of the square-root and multiplication circuits, the width is estimated as
+
+\[
+\begin{aligned}
+W_{\mathrm{LG}}(F)
+&=M(2p+2)+N(2p+4)\\
+&=c\left(4F+4c+26\right).
+\end{aligned}
+\]
+
+The depth is estimated as
+
+\[
+\begin{aligned}
+D_{\mathrm{LG}}(F)
+&=\frac{1}{2}M(2p+2)^2+N(p+2)^2\\
+&=c\left[
+2(F+c+6)^2+(F+c+7)^2
+\right].
+\end{aligned}
+\]
+
+<p align="center">
+  <img src="./PIC/Circuit%20Width%20versus%20F.png" alt="Circuit width versus F" width="650">
+</p>
+
+<p align="center">
+  <img src="./PIC/Circuit%20Depth%20versus%20F.png" alt="Circuit depth versus F" width="650">
+</p>
+
+The hidden constants in the asymptotic complexities of the prior circuits are normalized to one. Therefore, these figures illustrate scaling trends rather than exact circuit-resource comparisons.
 
 ## Simulation with SliQSim
 
