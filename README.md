@@ -54,76 +54,45 @@ Except for these two additional illustrative cases, the experimental QASM files 
 
 To provide a more intuitive comparison with prior quantum logarithm circuits, we include width- and depth-scaling plots.
 
-Bhaskar *et al.*'s LN module achieves \(\mathcal{O}(2^{-F})\) accuracy with width
+Bhaskar *et al.*'s LN module achieves O(2^-F) accuracy with width O(F^2 log2(F)) and depth O(F^3 log2(F)).
 
-\[
-\mathcal{O}(F^2\log F)
-\]
-
-and depth
-
-\[
-\mathcal{O}(F^3\log F).
-\]
-
-Wang *et al.* propose a qFBE-based logarithm circuit with width
-
-\[
-\mathcal{O}(F^2)
-\]
-
-and depth
-
-\[
-\mathcal{O}(F^3).
-\]
-
-Their work does not provide an analytical error bound and instead relies on numerical evaluation.
+Wang *et al.* propose a qFBE-based logarithm circuit with width O(F^2) and depth O(F^3). Their work does not provide an analytical error bound and instead relies on numerical evaluation.
 
 For the proposed logarithm circuit, we choose
 
-\[
-M=N=\left\lceil\sqrt{F+2}\right\rceil,
-\qquad
-p=F+M+5.
-\]
+```text
+M = N = ceil(sqrt(F + 2))
+p = F + M + 5
+```
 
-This achieves \(\mathcal{O}(2^{-F})\) accuracy with asymptotic width \(\mathcal{O}(F^{1.5})\) and depth \(\mathcal{O}(F^{2.5})\).
+This parameter choice achieves O(2^-F) accuracy with asymptotic width O(F^1.5) and depth O(F^2.5).
 
-Let
+For a more implementation-oriented estimate, a square-root circuit with `2 + 2p` input bits contributes width O(2 + 2p) and depth O((2 + 2p)^2 / 2). A multiplier with `2 + p` input bits contributes width O(2(2 + p)) and depth O((2 + p)^2).
 
-\[
-c=\left\lceil\sqrt{F+2}\right\rceil.
-\]
+Let 
+c = ceil(sqrt(F + 2)).
+Since `M = N = c` and `p = F + c + 5`, the estimated width is
 
-Using the resource estimates of the square-root and multiplication circuits, the width is estimated as
+```text
+W_LG(F) = M(2p + 2) + N(2p + 4)
+        = c(4F + 4c + 26).
+```
 
-\[
-\begin{aligned}
-W_{\mathrm{LG}}(F)
-&=M(2p+2)+N(2p+4)\\
-&=c\left(4F+4c+26\right).
-\end{aligned}
-\]
+The estimated depth is
 
-The depth is estimated as
+```text
+D_LG(F) = (1/2)M(2p + 2)^2 + N(p + 2)^2
+        = c[2(F + c + 6)^2 + (F + c + 7)^2].
+```
 
-\[
-\begin{aligned}
-D_{\mathrm{LG}}(F)
-&=\frac{1}{2}M(2p+2)^2+N(p+2)^2\\
-&=c\left[
-2(F+c+6)^2+(F+c+7)^2
-\right].
-\end{aligned}
-\]
+The following figures compare these estimates with the asymptotic resource trends of the prior circuits.
 
 <p align="center">
-  <img src="./PIC/Circuit%20Width%20versus%20F.png" alt="Circuit width versus F" width="650">
+  <img src="./PIC/Circuit%20Width%20versus%20F.png" alt="Circuit width versus F" width="450">
 </p>
 
 <p align="center">
-  <img src="./PIC/Circuit%20Depth%20versus%20F.png" alt="Circuit depth versus F" width="650">
+  <img src="./PIC/Circuit%20Depth%20versus%20F.png" alt="Circuit depth versus F" width="450">
 </p>
 
 The hidden constants in the asymptotic complexities of the prior circuits are normalized to one. Therefore, these figures illustrate scaling trends rather than exact circuit-resource comparisons.
