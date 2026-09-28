@@ -9,9 +9,75 @@ The complete circuit-level error analysis and its derivation are provided in [`A
 ## Contents
 
 - `Appendix.pdf`: Detailed error analysis of the proposed fixed-point quantum base-2 logarithm circuit.
+- `PIC/Circuit_Width_Depth_versus_F.png`: Primitive-level width and depth comparison with prior quantum logarithm circuits.
 - QASM files: Circuit QASM files for the experimental cases listed in `LG_Table_ExperimentalResults.png`.
-- `PIC/Circuit Width versus F.png`: Width-scaling comparison with prior quantum logarithm circuits.
-- `PIC/Circuit Depth versus F.png`: Depth-scaling comparison with prior quantum logarithm circuits.
+
+## Resource-Scaling Comparison
+
+To provide a more concrete comparison with prior quantum logarithm circuits, we estimate the resource usage from the number and operand widths of the dominant SQRT and MUL operations, rather than directly plotting their asymptotic Big-O expressions.
+
+The comparison uses target fractional precision `F = 8 ... 1024`.
+
+For the primitive-level depth model, we use
+
+```text
+D_SQRT(w) = q(q + 1),  q = ceil(w / 2)
+D_MUL(w)  = w^2
+```
+
+where the SQRT model reflects the progressively increasing ADD/SUB widths of a non-restoring square-root circuit.
+
+<p align="center">
+  <img src="./PIC/Circuit_Width_Depth_versus_F.png" alt="Circuit width and depth versus F" width="900">
+</p>
+
+The left panel shows the estimated width and the right panel shows the normalized arithmetic depth. These figures are primitive-level resource estimates rather than exact Clifford+T counts.
+
+For Bhaskar et al., the number of range-reduction steps `ell` is selected from their analytical error bound to satisfy `2^(-F)` accuracy, with
+
+```text
+b = max(5 ell, 25).
+```
+
+The estimated resources are
+
+```text
+D_Bhaskar
+  = D_SQRT(n)
+  + (ell - 1) D_SQRT(b + 1)
+  + D_MUL(b + 1)
+
+W_Bhaskar
+  = n + ell(b + 1) + 2(b + 1).
+```
+
+For Wang et al.'s qFBE-based logarithm, an `F`-bit arithmetic state requires approximately `F - 1` square operations:
+
+```text
+D_Wang = (F - 1) D_MUL(F)
+W_Wang = (F - 1)F + 2F.
+```
+
+For the proposed circuit,
+
+```text
+M = N = ceil(sqrt(F + 2))
+p = F + M + 5.
+```
+
+Each SQRT operates on `2p + 2` bits, while each MUL takes two `p + 2` bit operands and temporarily produces a `2p + 4` bit full product. Therefore,
+
+```text
+D_LG
+  = M D_SQRT(2p + 2)
+  + N D_MUL(p + 2)
+
+W_LG
+  = M(2p + 2)
+  + N(2p + 4).
+```
+
+Reusable scratch ancilla are not multiplied by the number of sequential arithmetic operations.
 
 ## Experimental QASM Files
 
@@ -50,53 +116,6 @@ These two cases can still achieve the same target error bound, but they require 
 
 Except for these two additional illustrative cases, the experimental QASM files follow the balanced parameter selection described in the paper, namely M=N=Theta(F^0.5).
 
-## Resource-Scaling Comparison
-
-To provide a more intuitive comparison with prior quantum logarithm circuits, we include width- and depth-scaling plots.
-
-Bhaskar *et al.*'s LN module achieves O(2^-F) accuracy with width O(F^2 log2(F)) and depth O(F^3 log2(F)).
-
-Wang *et al.* propose a qFBE-based logarithm circuit with width O(F^2) and depth O(F^3). Their work does not provide an analytical error bound and instead relies on numerical evaluation.
-
-For the proposed logarithm circuit, we choose
-
-```text
-M = N = ceil(sqrt(F + 2))
-p = F + M + 5
-```
-
-This parameter choice achieves O(2^-F) accuracy with asymptotic width O(F^1.5) and depth O(F^2.5).
-
-For a more implementation-oriented estimate, a square-root circuit with `n = 2 + 2p` input bits contributes width O(n) and depth O(n^2 / 2). A multiplier with `n=2 + p` input bits contributes width O(2n) and depth O(n^2).
-
-Let 
-c = ceil(sqrt(F + 2)).
-Since `M = N = c` and `p = F + c + 5`, the estimated width is
-
-```text
-W_LG(F) = M(2p + 2) + N(2p + 4)
-        = c(4F + 4c + 26).
-```
-
-The estimated depth is
-
-```text
-D_LG(F) = (1/2)M(2p + 2)^2 + N(p + 2)^2
-        = c[2(F + c + 6)^2 + (F + c + 7)^2].
-```
-
-The following figures compare these estimates with the asymptotic resource trends of the prior circuits.
-
-<p align="center">
-  <img src="./PIC/Circuit%20Width%20versus%20F.png" alt="Circuit width versus F" width="450">
-</p>
-
-<p align="center">
-  <img src="./PIC/Circuit%20Depth%20versus%20F.png" alt="Circuit depth versus F" width="450">
-</p>
-
-The hidden constants in the asymptotic complexities of the prior circuits are normalized to one. Therefore, these figures illustrate scaling trends rather than exact circuit-resource comparisons.
-
 ## Simulation with SliQSim
 
 The provided QASM files can be simulated using **SliQSim**, a high-performance BDD-based quantum circuit simulator.
@@ -110,14 +129,18 @@ A typical workflow is:
 
 ## Output Format
 
-The circuit output register is denoted by `lgX`. 
+The circuit output register is denoted by `lgX`.
 
 It represents `lgX` in the fixed-point format
+
 Q_{(⌈lg(n+1)⌉+1).F},
-where 
+
+where
+
 \(n = I + F\).
 
 Let
+
 m = ⌈lg(n+1)⌉+1.
 
 Then the output register `lgX` contains \(m+F\) bits:
