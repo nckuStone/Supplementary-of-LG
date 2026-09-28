@@ -2,7 +2,7 @@
 
 This repository provides the supplementary material for the paper:
 
-**Resource-Efficient Fixed-Point Quantum Logarithm Circuit with Analytically Derived Error Bounds**
+**A Resource-Efficient Quantum Circuit for Fixed-Point Logarithm Operations with Analytical Error Bounds**
 
 The complete circuit-level error analysis and its derivation are provided in [`Appendix.pdf`](./Appendix.pdf).
 
