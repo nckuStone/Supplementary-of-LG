@@ -4,13 +4,21 @@ This repository provides the supplementary material for the paper:
 
 **A Resource-Efficient Quantum Circuit for Fixed-Point Logarithm Operations with Analytical Error Bounds**
 
-The complete circuit-level error analysis and its derivation are provided in [`Appendix.pdf`](./Appendix.pdf).
+**Authors:** Lei-Han Yao, Yu-Chung Chen, Yean-Ru Chen, and Shang-Wei Lin
+
+Accepted by ASP-DAC 2027.
+
+## Citation
+If you use the materials in this repository, please cite the corresponding ASP-DAC 2027 paper.
 
 ## Contents
 
 - `Appendix.pdf`: Detailed error analysis of the proposed fixed-point quantum base-2 logarithm circuit.
 - `PIC/Circuit_Width_Depth_versus_F.png`: Primitive-level width and depth comparison with prior quantum logarithm circuits.
 - QASM files: Circuit QASM files for the experimental cases listed in `LG_Table_ExperimentalResults.png`.
+
+## Circuit-Level Error Analysis
+The complete circuit-level error analysis and its derivation are provided in [`Appendix.pdf`](./Appendix.pdf).
 
 ## Resource-Scaling Comparison
 
